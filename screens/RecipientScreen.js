@@ -26,7 +26,7 @@ const RecepientListScreen = (props) => {
         <Recipients
           name={itemData.item.name}
           budget={itemData.item.budget}
-          id={giftListId}
+          description={itemData.item.description}
         />
       </View>
     );
@@ -82,14 +82,13 @@ const RecepientListScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
-  topSafeAreaView: { flex: 1, overflow: "hidden" },
-
+  container: {
+    flex: 1,
+    backgroundColor: "#E5E5E5",
+  },
   headerContainer: {
-    elevation: 5,
-    borderRadius: 5,
     height: responsiveFontSize(15),
-    backgroundColor: "pink",
+    backgroundColor: "#E5E5E5",
     flexDirection: "row",
   },
   headTextContainer: {

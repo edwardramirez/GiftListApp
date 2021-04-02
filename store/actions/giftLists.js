@@ -19,6 +19,7 @@ export const deleteGiftList = (key) => {
     id: key,
   };
 };
+
 export const editGiftList = (key, title, budget, date, recipients) => {
   return {
     type: EDIT_GIFTLIST,

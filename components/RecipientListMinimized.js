@@ -34,6 +34,7 @@ import {
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 const Recipients = (props) => {
+  console.log(props);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -53,93 +54,14 @@ const Recipients = (props) => {
   newRecipient.budget = price;
   newRecipient.description = description;
 
-  //used to pass data to store
-  const dispatch = useDispatch();
-
-  //submits recipient
-  const addRecipient = () => {
-    console.log(newRecipient);
-    dispatch(addRecipient(props.id, newRecipient));
-    setShowSubMenu(false);
-    // navigation.navigate("Main Screen");
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <View style={styles.recipientInfoContainer}>
+        <View style={{}}>
           <Text style={styles.nameText}>{props.name}</Text>
-          <Text style={styles.descriptionText}>{props.description}</Text>
         </View>
-        <View style={styles.plusContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              setShowSubMenu(true);
-            }}
-          >
-            <FontAwesome5
-              name="plus-square"
-              color={"black"}
-              size={responsiveFontSize(5)}
-            />
-
-            <Modal
-              animationIn="slideInUp"
-              isVisible={showSubMenu}
-              style={{ margin: 0 }}
-              onBackdropPress={closeSubMenu}
-            >
-              <View style={styles.createRecipientContainer}>
-                <View style={styles.formContainer}>
-                  <View>
-                    <Text style={styles.titleTextStyle}>Name</Text>
-                    <TextInput
-                      style={styles.textInputStyle}
-                      placeholderStyle={{ fontWeight: "bold" }}
-                      placeholder="To"
-                      value={name}
-                      onChangeText={(name) => setName(name)}
-                    />
-                  </View>
-                  <View>
-                    <Text style={styles.titleTextStyle}>Price</Text>
-                    <CurrencyInput
-                      style={styles.textInputStyle}
-                      value={price}
-                      onChangeValue={setPrice}
-                      placeholder="$0.00"
-                      unit="$"
-                      delimiter=","
-                      separator="."
-                      precision={2}
-                    />
-                    <Text style={styles.titleTextStyle}>Description</Text>
-                    <TextInput
-                      style={styles.textInputStyle}
-                      placeholderStyle={{ fontWeight: "bold" }}
-                      placeholder="Gift"
-                      value={description}
-                      onChangeText={(description) =>
-                        setDescription(description)
-                      }
-                    />
-                  </View>
-                </View>
-                <View style={styles.buttonContainer}>
-                  <CreateCancelButton
-                    buttonColor="red"
-                    buttonName="Cancel"
-                    onPress={closeSubMenu}
-                  />
-                  <CreateCancelButton
-                    buttonColor="blue"
-                    buttonName="Add"
-                    onPress={addRecipient}
-                  />
-                </View>
-              </View>
-            </Modal>
-          </TouchableOpacity>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.descriptionText}>{props.description}</Text>
         </View>
       </View>
       <TouchableOpacity
@@ -149,18 +71,14 @@ const Recipients = (props) => {
         }}
       >
         <View style={styles.bottomContainer}>
-          <ProgressSteps
-            topOffset={0}
-            marginBottom={0}
-            labelFontSize={responsiveFontSize(1.5)}
-          >
+          <ProgressSteps topOffset={0} labelFontSize={responsiveFontSize(1.5)}>
             <ProgressStep label="Purchased" removeBtnRow></ProgressStep>
             <ProgressStep label="Wrapped">
               <View style={{ alignItems: "center" }}>
                 <Text>This is the content within step 2!</Text>
               </View>
             </ProgressStep>
-            <ProgressStep label="Delivered">
+            <ProgressStep label="Gifted">
               <View style={{ alignItems: "center" }}>
                 <Text>This is the content within step 3!</Text>
               </View>
@@ -179,15 +97,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     marginVertical: responsiveFontSize(2),
-    backgroundColor: "#177ae8",
+    backgroundColor: "white",
     overflow: "hidden",
   },
   topContainer: {
     flex: 2,
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
-  bottomContainer: { flex: 1.5, backgroundColor: "white" },
+  bottomContainer: {
+    flex: 1.5,
+    backgroundColor: "white",
+    padding: responsiveFontSize(0.5),
+  },
 
   plusContainer: {
     justifyContent: "center",
@@ -200,10 +120,10 @@ const styles = StyleSheet.create({
     paddingLeft: responsiveFontSize(1),
     fontSize: responsiveFontSize(3),
     fontWeight: "bold",
-    color: "white",
+    color: "black",
   },
   descriptionText: {
-    color: "white",
+    color: "black",
     // backgroundColor: "green",
     fontWeight: "bold",
     fontSize: responsiveFontSize(2),

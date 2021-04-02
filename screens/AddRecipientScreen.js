@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -23,6 +22,7 @@ import { addRecipient } from "../store/actions/giftLists";
 import giftRecipient from "../models/RecipientModel";
 
 const CreateScreen = (props) => {
+  let giftListId = props.route.params.id;
   const [name, setName] = useState("");
   const [budget, setBudget] = useState("");
   const [description, setDescription] = useState("");
@@ -38,8 +38,9 @@ const CreateScreen = (props) => {
   newRecipient.status = "";
 
   //submits recipient
-  const addRecipient = () => {
-    dispatch(addRecipient(addRecipientprops.route.params.id, newRecipient));
+  const submitAddRecipient = () => {
+    dispatch(addRecipient(giftListId, newRecipient));
+    props.navigation.goBack();
   };
 
   //validates create form
@@ -106,12 +107,7 @@ const CreateScreen = (props) => {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <AcceptButton
-            buttonName="ADD"
-            onPress={() => {
-              addRecipient(), props.navigation.goBack();
-            }}
-          />
+          <AcceptButton buttonName="ADD" onPress={submitAddRecipient} />
         </View>
       </ScrollView>
     </View>

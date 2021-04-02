@@ -63,40 +63,29 @@ const giftListReuducer = (state = initialState, action) => {
 
     case ADD_RECIPIENT:
       //get giftList data
-      const addRecipientId = action.giftListId;
+      const addGiftListId = action.giftListId;
+
+      const recipient = action.giftListRecipients;
 
       //get giftlists
-      const addRecipientList = state.giftList;
+      const giftListEdit = [...state.giftList];
 
       // find giftlist index that we are going to edit
-      const addTargetGiftListIndex = state.giftList.findIndex((list) => {
-        return list.id === addRecipientId;
-      });
-
-      //append to array
-      addRecipientList[addTargetGiftListIndex].recipients.push(
-        action.giftListRecipients
+      const targetGiftListIndexAddRecipient = state.giftList.findIndex(
+        (list) => {
+          return list.id === addGiftListId;
+        }
       );
+      const newRecipientList =
+        giftListEdit[targetGiftListIndexAddRecipient].recipients;
 
-      //new giftList object that will replace the edited giftList
-      let newGiftListforRecipentAdded = {
-        id: Math.random(),
-        title: addRecipientList[addTargetGiftListIndex].title,
-        budget: addRecipientList[addTargetGiftListIndex].budget,
-        date: addRecipientList[addTargetGiftListIndex].date,
-        recipients: addRecipientList[addTargetGiftListIndex].recipients,
-      };
+      newRecipientList.push(recipient);
 
-      //replace GiftList
-      if (addTargetGiftListIndex >= 0) {
-        addRecipientList.splice(
-          addTargetGiftListIndex,
-          1,
-          newGiftListforRecipentAdded
-        );
-      }
+      console.log(giftListEdit);
+
       return {
         ...state,
+        giftList: giftListEdit,
       };
     default:
       return { ...state };

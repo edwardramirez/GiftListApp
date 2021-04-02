@@ -3,9 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
   TextInput,
+  ScrollView,
 } from "react-native";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
 import { useDispatch } from "react-redux";
@@ -42,104 +42,93 @@ const EditScreen = (props) => {
         props.route.params.focusedList.recipients
       )
     );
+    props.navigation.goBack();
   };
 
   //validates create form
   const [validate, setValidate] = useState(null);
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.topSafeAreaView}>
-        <View style={styles.headerContainer}>
-          <View style={styles.arrowContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                props.navigation.goBack();
-              }}
-            >
-              <FontAwesome5
-                style={styles.arrow}
-                name="arrow-left"
-                color={"black"}
-                size={responsiveFontSize(3)}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.headerText}>Edit Gift List</Text>
-          </View>
-        </View>
-        <View style={styles.scrollViewContainer}>
-          <View style={styles.formContainer}>
-            <View style={styles.fieldTitle}>
-              <Text style={styles.fieldTtitleText}>TITLE</Text>
-              <TextInput
-                style={styles.textInputStyle}
-                value={title}
-                placeholderStyle={{ fontWeight: "bold" }}
-                placeholder="List Title"
-                onChangeText={(title) => setTitle(title)}
-              ></TextInput>
-            </View>
-            <View style={styles.budgetContainer}>
-              <Text style={styles.fieldTtitleText}>BUDGET</Text>
-              <CurrencyInput
-                style={styles.textInputStyle}
-                value={budget}
-                onChangeValue={setBudget}
-                placeholder="$0.00"
-                unit="$"
-                delimiter=","
-                separator="."
-                precision={2}
-              />
-            </View>
-            <View style={styles.dateContainer}>
-              <Text style={styles.fieldTtitleText}>DUE DATE</Text>
-              <DatePicker label="Date" date={date} setDate={setDate} />
-            </View>
-          </View>
-          <View style={styles.buttonContainer}>
-            <AcceptButton
-              buttonName="SAVE"
-              onPress={() => {
-                submitEditGiftList();
-                props.navigation.goBack();
-              }}
+      <View style={styles.headerContainer}>
+        <View style={styles.arrowContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.goBack();
+            }}
+          >
+            <FontAwesome5
+              style={styles.arrow}
+              name="arrow-left"
+              color={"black"}
+              size={responsiveFontSize(3)}
             />
-          </View>
+          </TouchableOpacity>
         </View>
-      </SafeAreaView>
+        <View style={styles.textContainer}>
+          <Text style={styles.headerText}>Edit giftlist</Text>
+        </View>
+      </View>
+      <ScrollView>
+        <View
+          style={[styles.fieldContainer, { marginTop: responsiveFontSize(2) }]}
+        >
+          <Text style={styles.fieldTtitleText}>TITLE</Text>
+          <TextInput
+            style={styles.textInputStyle}
+            value={title}
+            placeholderStyle={{ fontWeight: "bold" }}
+            placeholder="List Title"
+            onChangeText={(title) => setTitle(title)}
+          ></TextInput>
+        </View>
+        <View style={styles.fieldContainer}>
+          <Text style={styles.fieldTtitleText}>BUDGET</Text>
+          <CurrencyInput
+            style={styles.textInputStyle}
+            value={budget}
+            onChangeValue={setBudget}
+            placeholder="$0.00"
+            unit="$"
+            delimiter=","
+            separator="."
+            precision={2}
+          />
+        </View>
+        <View style={styles.fieldContainer}>
+          <Text style={styles.fieldTtitleText}>DUE DATE</Text>
+          <DatePicker label="Date" date={date} setDate={setDate} />
+        </View>
+        <View style={styles.buttonContainer}>
+          <AcceptButton buttonName="EDIT" onPress={submitEditGiftList} />
+        </View>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
-  topSafeAreaView: { flex: 1, overflow: "hidden" },
-  scrollViewContainer: {
+  container: {
     flex: 1,
+    backgroundColor: "#E5E5E5",
   },
   headerContainer: {
-    elevation: 5,
-    borderRadius: 5,
     height: responsiveFontSize(15),
-    backgroundColor: "pink",
+    backgroundColor: "#E5E5E5",
     flexDirection: "row",
   },
   arrowContainer: { justifyContent: "flex-end" },
   textContainer: {
     justifyContent: "flex-end",
   },
-  arrow: { padding: responsiveFontSize(2) },
+  arrow: {
+    padding: responsiveFontSize(2),
+  },
   headerText: {
     fontSize: responsiveFontSize(5),
     paddingTop: 50,
     fontWeight: "bold",
   },
-  formContainer: {
-    paddingHorizontal: responsiveFontSize(2),
-    paddingTop: responsiveFontSize(2),
-  },
+
   textInputStyle: {
     width: "100%",
     height: responsiveFontSize(8),
@@ -153,13 +142,19 @@ const styles = StyleSheet.create({
   fieldTtitleText: {
     fontWeight: "bold",
     fontSize: responsiveFontSize(5),
-    paddingTop: responsiveFontSize(2),
   },
   buttonContainer: {
-    position: "absolute",
-    bottom: 0,
+    marginBottom: responsiveFontSize(2),
+    paddingBottom: responsiveFontSize(2),
+    marginHorizontal: responsiveFontSize(2),
+  },
+  fieldContainer: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    overflow: "hidden",
     padding: responsiveFontSize(2),
-    width: "100%",
+    marginBottom: responsiveFontSize(2),
+    marginHorizontal: responsiveFontSize(2),
   },
 });
 

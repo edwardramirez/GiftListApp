@@ -28,16 +28,12 @@ const CreateScreen = (props) => {
   const [date, setDate] = useState(new Date());
   const [budget, setBudget] = useState("");
 
-  const gr = new giftRecipient(1, "Edward", 500, "ipod", "purchased");
-  const gr2 = new giftRecipient(2, "Bill", 500, "iwatch", "purchased");
-
-  const grArr = [gr, gr2];
-
   //used to pass data to store
   const dispatch = useDispatch();
 
-  const submitGiftList = (title, budget, date, recipient) => {
-    dispatch(addGiftList(title, budget, date, recipient));
+  const submitGiftList = () => {
+    dispatch(addGiftList(title, budget, date, []));
+    props.navigation.goBack();
   };
 
   //validates create form
@@ -94,13 +90,7 @@ const CreateScreen = (props) => {
           <DatePicker label="Date" date={date} setDate={setDate} />
         </View>
         <View style={styles.buttonContainer}>
-          <AcceptButton
-            buttonName="CREATE"
-            onPress={() => {
-              submitGiftList(title, budget, date, grArr);
-              props.navigation.goBack();
-            }}
-          />
+          <AcceptButton buttonName="CREATE" onPress={submitGiftList} />
         </View>
       </ScrollView>
     </View>

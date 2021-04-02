@@ -8,7 +8,7 @@ import MainScreen from "../screens/MainScreen";
 import CreateScreen from "../screens/CreateScreen";
 import RecipientScreen from "../screens/RecipientScreen";
 import EditScreen from "../screens/EditScreen";
-import AddPersonScreen from "../screens/AddPersonScreen";
+import AddRecipientScreen from "../screens/AddRecipientScreen";
 
 const Stack = createStackNavigator();
 
@@ -22,7 +22,7 @@ function GiftStack() {
       <Stack.Screen name="Create Screen" component={CreateScreen} />
       <Stack.Screen name="Recipient Screen" component={RecipientScreen} />
       <Stack.Screen name="Edit Screen" component={EditScreen} />
-      <Stack.Screen name="Add Person Screen" component={AddPersonScreen} />
+      <Stack.Screen name="Add Person Screen" component={AddRecipientScreen} />
     </Stack.Navigator>
   );
 }

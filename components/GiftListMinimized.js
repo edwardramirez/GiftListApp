@@ -15,6 +15,8 @@ import {
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 
+import ProgressCircle from "react-native-progress-circle";
+
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 const giftListMinimized = (props) => {
@@ -54,7 +56,11 @@ const giftListMinimized = (props) => {
           });
         }}
       >
-        <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            flexDirection: "row",
+          }}
+        >
           <View
             style={{
               justifyContent: "center",
@@ -68,13 +74,50 @@ const giftListMinimized = (props) => {
               size={responsiveFontSize(4)}
             />
           </View>
-          <View>
-            <Text style={styles.titleText}>{props.focusedList.title}</Text>
-            <Text style={styles.infoText}>Due in {diffDays} days!</Text>
+          <View style={{ flex: 1, alignItems: "center" }}>
+            <View>
+              <Text style={styles.titleText}>{props.focusedList.title}</Text>
+            </View>
+            <View>
+              <Text style={styles.infoText}>Due in {diffDays} days!</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                width: "100%",
+              }}
+            >
+              <View style={{ alignItems: "center" }}>
+                <Text>Completed</Text>
+                <ProgressCircle
+                  percent={30}
+                  radius={50}
+                  borderWidth={8}
+                  color="#3399FF"
+                  shadowColor="#999"
+                  bgColor="#fff"
+                >
+                  <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+                </ProgressCircle>
+              </View>
+              <View style={{ alignItems: "center" }}>
+                <Text>Spent</Text>
+                <ProgressCircle
+                  percent={30}
+                  radius={50}
+                  borderWidth={8}
+                  color="green"
+                  shadowColor="#999"
+                  bgColor="#fff"
+                >
+                  <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+                </ProgressCircle>
+              </View>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
-
       <View style={styles.ellipsisContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -131,6 +174,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     overflow: "hidden",
     flexDirection: "row",
+
     justifyContent: "space-between",
     backgroundColor: "white",
   },
@@ -148,6 +192,7 @@ const styles = StyleSheet.create({
   leftContainer: {
     flex: 1,
     paddingVertical: responsiveFontSize(1),
+    flexDirection: "column",
   },
 
   ellipsisContainer: {
