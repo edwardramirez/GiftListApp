@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import { navigationRef } from "./navigation/RootNavigation";
+import { NavigationContainer } from "@react-navigation/native";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+import { SafeAreaView, ActivityIndicator } from "react-native";
+
+import GiftList from "./navigation/AppNavigation";
+import { combineReducers } from "redux";
+
+import giftListReducer from "./store/reducers/giftListReducer";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+
+const rootReducer = combineReducers({
+  giftListReducer: giftListReducer,
+  // recipeintListReducer: recipientReducer,
 });
+
+const store = createStore(rootReducer);
+
+const AppContainer = () => {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <NavigationContainer ref={navigationRef}>
+          <GiftList />
+        </NavigationContainer>
+      </Provider>
+    </SafeAreaView>
+  );
+};
+export default AppContainer;

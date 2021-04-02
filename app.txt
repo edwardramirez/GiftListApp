@@ -1,0 +1,8 @@
+Main Screen
+-List of giftlist
+ -Names,purchased,wrapped,delivered,pirce
+ -add people/edit people/delete people
+-add button
+ - create screen for new list title name, date, Budget,
+-search button
+ - search for list by name
