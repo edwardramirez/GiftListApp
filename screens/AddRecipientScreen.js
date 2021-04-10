@@ -1,31 +1,31 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-} from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
-import { useDispatch } from "react-redux";
+} from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { useDispatch } from 'react-redux';
 
-import CurrencyInput from "react-native-currency-input";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import CurrencyInput from 'react-native-currency-input';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import Colors from "../resources/Colors";
+import Colors from '../resources/Colors';
 
-import AcceptButton from "../components/AcceptButton";
+import AcceptButton from '../components/AcceptButton';
 
-import { addRecipient } from "../store/actions/giftLists";
+import { addRecipient } from '../store/actions/giftLists';
 
-import giftRecipient from "../models/RecipientModel";
+import giftRecipient from '../models/RecipientModel';
 
 const CreateScreen = (props) => {
   let giftListId = props.route.params.id;
-  const [name, setName] = useState("");
-  const [budget, setBudget] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [budget, setBudget] = useState('');
+  const [description, setDescription] = useState('');
 
   //used to pass data to store
   const dispatch = useDispatch();
@@ -35,11 +35,13 @@ const CreateScreen = (props) => {
   newRecipient.name = name;
   newRecipient.budget = budget;
   newRecipient.description = description;
-  newRecipient.status = "";
+  newRecipient.status = '';
 
   //submits recipient
   const submitAddRecipient = () => {
-    dispatch(addRecipient(giftListId, newRecipient));
+    dispatch(
+      addRecipient(giftListId, Math.random(), name, budget, description, '1')
+    );
     props.navigation.goBack();
   };
 
@@ -56,8 +58,8 @@ const CreateScreen = (props) => {
           >
             <FontAwesome5
               style={styles.arrow}
-              name="arrow-left"
-              color={"black"}
+              name='arrow-left'
+              color={'black'}
               size={responsiveFontSize(3)}
             />
           </TouchableOpacity>
@@ -74,8 +76,8 @@ const CreateScreen = (props) => {
           <TextInput
             style={styles.textInputStyle}
             value={name}
-            placeholderStyle={{ fontWeight: "bold" }}
-            placeholder="Who are you giving to?"
+            placeholderStyle={{ fontWeight: 'bold' }}
+            placeholder='Who are you giving to?'
             onChangeText={(name) => setName(name)}
           ></TextInput>
         </View>
@@ -85,10 +87,10 @@ const CreateScreen = (props) => {
             style={styles.textInputStyle}
             value={budget}
             onChangeValue={setBudget}
-            placeholder="How much do you plan to spend?"
-            unit="$"
-            delimiter=","
-            separator="."
+            placeholder='How much do you plan to spend?'
+            unit='$'
+            delimiter=','
+            separator='.'
             precision={2}
           />
         </View>
@@ -100,14 +102,14 @@ const CreateScreen = (props) => {
               multiline
               numberOfLines={5}
               value={description}
-              placeholderStyle={{ fontWeight: "bold" }}
-              placeholder="What are you getting them?"
+              placeholderStyle={{ fontWeight: 'bold' }}
+              placeholder='What are you getting them?'
               onChangeText={(description) => setDescription(description)}
             ></TextInput>
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <AcceptButton buttonName="ADD" onPress={submitAddRecipient} />
+          <AcceptButton buttonName='ADD' onPress={submitAddRecipient} />
         </View>
       </ScrollView>
     </View>
@@ -117,16 +119,16 @@ const CreateScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E5E5E5",
+    backgroundColor: '#E5E5E5',
   },
   headerContainer: {
     height: responsiveFontSize(15),
-    backgroundColor: "#E5E5E5",
-    flexDirection: "row",
+    backgroundColor: '#E5E5E5',
+    flexDirection: 'row',
   },
-  arrowContainer: { justifyContent: "flex-end" },
+  arrowContainer: { justifyContent: 'flex-end' },
   textContainer: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   arrow: {
     padding: responsiveFontSize(2),
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: responsiveFontSize(5),
     paddingTop: 50,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   textInputStyle: {
@@ -142,22 +144,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     borderColor: Colors.lightGrey,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: responsiveFontSize(2),
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   descriptionInputStyle: {
     height: responsiveFontSize(20),
     borderWidth: 1,
     borderRadius: 4,
     borderColor: Colors.lightGrey,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: responsiveFontSize(2),
-    fontWeight: "bold",
-    justifyContent: "flex-start",
+    fontWeight: 'bold',
+    justifyContent: 'flex-start',
   },
   fieldTtitleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: responsiveFontSize(5),
   },
   buttonContainer: {
@@ -166,9 +168,9 @@ const styles = StyleSheet.create({
     marginHorizontal: responsiveFontSize(2),
   },
   fieldContainer: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
-    overflow: "hidden",
+    overflow: 'hidden',
     padding: responsiveFontSize(2),
     marginBottom: responsiveFontSize(2),
     marginHorizontal: responsiveFontSize(2),

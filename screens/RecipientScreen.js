@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,19 +6,26 @@ import {
   SafeAreaView,
   TouchableOpacity,
   FlatList,
-} from "react-native";
-import { useDispatch } from "react-redux";
+} from 'react-native';
+import { useDispatch } from 'react-redux';
 
-import { responsiveFontSize } from "react-native-responsive-dimensions";
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import Recipients from "../components/RecipientListMinimized";
+import Recipients from '../components/RecipientListMinimized';
 
-const RecepientListScreen = (props) => {
+const RecepientScreen = (props) => {
   //selected giftlist ID
   const giftListId = props.route.params.giftListID;
   const giftListRecipients = props.route.params.focusedList;
+
+  useEffect(() => {
+    return () => {
+      console.log('new list is now avaible');
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.route.params?.giftListTitle]);
 
   const renderRecipientList = (itemData) => {
     return (
@@ -43,8 +50,8 @@ const RecepientListScreen = (props) => {
           >
             <FontAwesome5
               style={styles.arrow}
-              name="arrow-left"
-              color={"black"}
+              name='arrow-left'
+              color={'white'}
               size={responsiveFontSize(3)}
             />
           </TouchableOpacity>
@@ -67,12 +74,12 @@ const RecepientListScreen = (props) => {
       <View style={styles.addButton}>
         <TouchableOpacity
           onPress={() => {
-            props.navigation.navigate("Add Person Screen", { id: giftListId });
+            props.navigation.navigate('Add Person Screen', { id: giftListId });
           }}
         >
           <FontAwesome5
-            name="plus-circle"
-            color={"black"}
+            name='plus-circle'
+            color={'black'}
             size={responsiveFontSize(7)}
           />
         </TouchableOpacity>
@@ -84,21 +91,25 @@ const RecepientListScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E5E5E5",
+    backgroundColor: '#E5E5E5',
   },
   headerContainer: {
     height: responsiveFontSize(15),
-    backgroundColor: "#E5E5E5",
-    flexDirection: "row",
+    backgroundColor: '#923ac5',
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+    borderRadius: responsiveFontSize(2),
+    padding: responsiveFontSize(1),
   },
   headTextContainer: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   headerText: {
     fontSize: responsiveFontSize(5),
-    fontWeight: "bold",
+    fontWeight: 'bold',
+    color: 'white',
   },
-  arrowContainer: { justifyContent: "flex-end" },
+  arrowContainer: { justifyContent: 'flex-end' },
   arrow: { padding: responsiveFontSize(2) },
   recipientContianer: { flex: 1 },
   listContainer: {
@@ -107,8 +118,8 @@ const styles = StyleSheet.create({
   addButton: {
     //backgroundColor: "red",
     elevation: 5,
-    alignItems: "flex-end",
-    position: "relative",
+    alignItems: 'flex-end',
+    position: 'relative',
     paddingHorizontal: responsiveFontSize(20),
 
     bottom: 0,
@@ -116,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecepientListScreen;
+export default RecepientScreen;

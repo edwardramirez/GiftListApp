@@ -1,7 +1,7 @@
-export const ADD_GIFTLIST = "ADD_GIFTLIST";
-export const DELETE_GIFTLIST = "DELETE_GIFTLIST";
-export const ADD_RECIPIENT = "ADD_RECIPIENT";
-export const EDIT_GIFTLIST = "EDIT_GIFTLIST";
+export const ADD_GIFTLIST = 'ADD_GIFTLIST';
+export const DELETE_GIFTLIST = 'DELETE_GIFTLIST';
+export const ADD_RECIPIENT = 'ADD_RECIPIENT';
+export const EDIT_GIFTLIST = 'EDIT_GIFTLIST';
 
 export const addGiftList = (title, budget, date, recipients) => {
   return {
@@ -31,10 +31,14 @@ export const editGiftList = (key, title, budget, date, recipients) => {
   };
 };
 
-export const addRecipient = (key, recipient) => {
+export const addRecipient = (key, id, name, budget, description, status) => {
   return {
     type: ADD_RECIPIENT,
     giftListId: key,
-    giftListRecipients: recipient,
+    recipientId: id,
+    recipientName: name,
+    recipientBudget: budget,
+    recipientDescription: description,
+    recipientStatus: status,
   };
 };

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import Modal from "react-native-modal";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import Modal from 'react-native-modal';
 
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 
-import { deleteGiftList } from "../store/actions/giftLists";
+import { deleteGiftList } from '../store/actions/giftLists';
 
 import {
   responsiveFontSize,
@@ -13,11 +13,11 @@ import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-import ProgressCircle from "react-native-progress-circle";
+import ProgressCircle from 'react-native-progress-circle';
 
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const giftListMinimized = (props) => {
   const navigation = useNavigation();
@@ -29,6 +29,9 @@ const giftListMinimized = (props) => {
   //shows edit and delete on card
   const [showSubMenu, setShowSubMenu] = useState(false);
 
+  //Calculate completed. completed/total
+  //calucate spent.  spent/totalBudget
+
   const closeSubMenu = () => {
     setShowSubMenu(false);
   };
@@ -38,10 +41,10 @@ const giftListMinimized = (props) => {
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 
   const diffDays = Math.round(
-    Math.abs((today - props.focusedList.date) / oneDay)
+    Math.abs((today - new Date(props.focusedList.date)) / oneDay)
   );
 
-  var randomColor = require("randomcolor"); // import the script
+  var randomColor = require('randomcolor'); // import the script
   var color = randomColor(); // a hex code for an attractive color
 
   return (
@@ -49,7 +52,7 @@ const giftListMinimized = (props) => {
       <TouchableOpacity
         style={styles.leftContainer}
         onPress={() => {
-          navigation.navigate("Recipient Screen", {
+          navigation.navigate('Recipient Screen', {
             giftListID: props.focusedList.id,
             giftListTitle: props.focusedList.title,
             focusedList: props.focusedList.recipients,
@@ -58,60 +61,69 @@ const giftListMinimized = (props) => {
       >
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
           }}
         >
           <View
             style={{
-              justifyContent: "center",
+              justifyContent: 'flex-start',
               paddingHorizontal: responsiveFontSize(2),
             }}
           >
             <FontAwesome5
-              style={{ alignSelf: "center" }}
-              name="gift"
+              style={{ alignSelf: 'center' }}
+              name='gift'
               color={color}
               size={responsiveFontSize(4)}
             />
           </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <View>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+            }}
+          >
+            <View style={{ padding: responsiveFontSize(1) }}>
               <Text style={styles.titleText}>{props.focusedList.title}</Text>
             </View>
-            <View>
-              <Text style={styles.infoText}>Due in {diffDays} days!</Text>
+            <View style={{ padding: responsiveFontSize(1) }}>
+              <Text style={styles.infoText}>
+                Due in <Text style={{ color: 'red' }}>{diffDays}</Text> days!
+              </Text>
             </View>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-                width: "100%",
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width: '100%',
+                padding: responsiveFontSize(1),
+                //backgroundColor: 'red',
               }}
             >
-              <View style={{ alignItems: "center" }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text>Completed</Text>
                 <ProgressCircle
                   percent={30}
                   radius={50}
                   borderWidth={8}
-                  color="#3399FF"
-                  shadowColor="#999"
-                  bgColor="#fff"
+                  color='#3399FF'
+                  shadowColor='#999'
+                  bgColor='#fff'
                 >
-                  <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+                  <Text style={{ fontSize: 18 }}>{'30%'}</Text>
                 </ProgressCircle>
               </View>
-              <View style={{ alignItems: "center" }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text>Spent</Text>
                 <ProgressCircle
                   percent={30}
                   radius={50}
                   borderWidth={8}
-                  color="green"
-                  shadowColor="#999"
-                  bgColor="#fff"
+                  color='green'
+                  shadowColor='#999'
+                  bgColor='#fff'
                 >
-                  <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+                  <Text style={{ fontSize: 18 }}>{'30%'}</Text>
                 </ProgressCircle>
               </View>
             </View>
@@ -125,13 +137,13 @@ const giftListMinimized = (props) => {
           }}
         >
           <FontAwesome5
-            name="ellipsis-h"
-            color={"black"}
+            name='ellipsis-h'
+            color={'black'}
             size={responsiveFontSize(4)}
           />
 
           <Modal
-            style={{ alignItems: "center" }}
+            style={{ alignItems: 'center' }}
             isVisible={showSubMenu}
             onBackdropPress={closeSubMenu}
           >
@@ -139,7 +151,7 @@ const giftListMinimized = (props) => {
               <TouchableOpacity
                 style={styles.touchableStyle}
                 onPress={() => {
-                  navigation.navigate("Edit Screen", {
+                  navigation.navigate('Edit Screen', {
                     focusedList: props.focusedList,
                   });
                   closeSubMenu();
@@ -172,46 +184,46 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     elevation: 10,
-    overflow: "hidden",
-    flexDirection: "row",
-
-    justifyContent: "space-between",
-    backgroundColor: "white",
+    overflow: 'hidden',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    padding: responsiveFontSize(2),
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: responsiveFontSize(3),
-    color: "black",
+    color: 'black',
   },
   infoText: {
-    //fontWeight: "bold",
+    fontWeight: '600',
     fontSize: responsiveFontSize(2),
     paddingLeft: responsiveFontSize(1),
-    color: "black",
+    color: 'black',
   },
   leftContainer: {
     flex: 1,
     paddingVertical: responsiveFontSize(1),
-    flexDirection: "column",
+    flexDirection: 'column',
   },
 
   ellipsisContainer: {
     //backgroundColor: "red",
-    height: "50%",
+    height: '50%',
     paddingHorizontal: responsiveFontSize(2),
     paddingVertical: responsiveFontSize(1),
   },
   subMenuContainer: {
     height: responsiveScreenHeight(15),
     width: responsiveScreenWidth(60),
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   menuOptions: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 0.5,
   },
 

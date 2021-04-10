@@ -4,10 +4,41 @@ import {
   DELETE_GIFTLIST,
   ADD_RECIPIENT,
   EDIT_RECIPIENT,
-} from "../actions/giftLists";
+} from '../actions/giftLists';
 
 const initialState = {
-  giftList: [],
+  giftList: [
+    {
+      budget: 50,
+      date: 'Sat Apr 20 2021 11:30:58 GMT-0700 (PDT)',
+      id: 0.17817645172513152,
+      recipients: [
+        {
+          budget: 50,
+          description: 'A crazy thing',
+          id: 0.9948358305588771,
+          name: 'Edward',
+          status: '1',
+        },
+      ],
+      title: 'This is a test',
+    },
+    {
+      budget: 50,
+      date: 'Sat Dec 20 2021 11:30:58 GMT-0700 (PDT)',
+      id: 2,
+      recipients: [
+        {
+          budget: 50,
+          description: 'A crazy thing 2',
+          id: 0.1,
+          name: 'Edward',
+          status: '1',
+        },
+      ],
+      title: 'This is a test 2 ',
+    },
+  ],
 };
 
 const giftListReuducer = (state = initialState, action) => {
@@ -65,7 +96,13 @@ const giftListReuducer = (state = initialState, action) => {
       //get giftList data
       const addGiftListId = action.giftListId;
 
-      const recipient = action.giftListRecipients;
+      let newRecipient = {
+        id: action.recipientId,
+        name: action.recipientName,
+        budget: action.recipientBudget,
+        description: action.recipientDescription,
+        status: action.recipientStatus,
+      };
 
       //get giftlists
       const giftListEdit = [...state.giftList];
@@ -76,16 +113,25 @@ const giftListReuducer = (state = initialState, action) => {
           return list.id === addGiftListId;
         }
       );
+
       const newRecipientList =
         giftListEdit[targetGiftListIndexAddRecipient].recipients;
 
-      newRecipientList.push(recipient);
+      newRecipientList.push(newRecipient);
 
-      console.log(giftListEdit);
+      giftListEdit[targetGiftListIndexAddRecipient].title = 'POOP';
 
+      const newList = giftListEdit[targetGiftListIndexAddRecipient];
+
+      //replace item in array
+      if (targetGiftListIndex >= 0) {
+        giftListEdit.splice(targetGiftListIndex, 1, newList);
+      }
+
+      // console.log(giftListEdit[targetGiftListIndexAddRecipient]);
       return {
         ...state,
-        giftList: giftListEdit,
+        giftList: giftListEdit.splice(targetGiftListIndex, 1, newList),
       };
     default:
       return { ...state };

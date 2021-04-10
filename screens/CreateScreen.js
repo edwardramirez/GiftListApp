@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,33 +6,33 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-} from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
-import { useDispatch } from "react-redux";
+} from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { useDispatch } from 'react-redux';
 
-import CurrencyInput from "react-native-currency-input";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import CurrencyInput from 'react-native-currency-input';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import Colors from "../resources/Colors";
+import Colors from '../resources/Colors';
 
-import DatePicker from "../components/DatePicker";
-import AcceptButton from "../components/AcceptButton";
+import DatePicker from '../components/DatePicker';
+import AcceptButton from '../components/AcceptButton';
 
-import giftRecipient from "../models/RecipientModel";
+import giftRecipient from '../models/RecipientModel';
 
-import { addGiftList } from "../store/actions/giftLists";
+import { addGiftList } from '../store/actions/giftLists';
 
 const CreateScreen = (props) => {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date());
-  const [budget, setBudget] = useState("");
+  const [budget, setBudget] = useState('');
 
   //used to pass data to store
   const dispatch = useDispatch();
 
   const submitGiftList = () => {
-    dispatch(addGiftList(title, budget, date, []));
+    dispatch(addGiftList(title, budget, String(date), []));
     props.navigation.goBack();
   };
 
@@ -49,8 +49,8 @@ const CreateScreen = (props) => {
           >
             <FontAwesome5
               style={styles.arrow}
-              name="arrow-left"
-              color={"black"}
+              name='arrow-left'
+              color={'black'}
               size={responsiveFontSize(3)}
             />
           </TouchableOpacity>
@@ -67,8 +67,8 @@ const CreateScreen = (props) => {
           <TextInput
             style={styles.textInputStyle}
             value={title}
-            placeholderStyle={{ fontWeight: "bold" }}
-            placeholder="List Title"
+            placeholderStyle={{ fontWeight: 'bold' }}
+            placeholder='List Title'
             onChangeText={(title) => setTitle(title)}
           ></TextInput>
         </View>
@@ -78,19 +78,19 @@ const CreateScreen = (props) => {
             style={styles.textInputStyle}
             value={budget}
             onChangeValue={setBudget}
-            placeholder="$0.00"
-            unit="$"
-            delimiter=","
-            separator="."
+            placeholder='$0.00'
+            unit='$'
+            delimiter=','
+            separator='.'
             precision={2}
           />
         </View>
         <View style={styles.fieldContainer}>
           <Text style={styles.fieldTtitleText}>DUE DATE</Text>
-          <DatePicker label="Date" date={date} setDate={setDate} />
+          <DatePicker label='Date' date={date} setDate={setDate} />
         </View>
         <View style={styles.buttonContainer}>
-          <AcceptButton buttonName="CREATE" onPress={submitGiftList} />
+          <AcceptButton buttonName='CREATE' onPress={submitGiftList} />
         </View>
       </ScrollView>
     </View>
@@ -100,16 +100,19 @@ const CreateScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E5E5E5",
+    backgroundColor: '#E5E5E5',
   },
   headerContainer: {
     height: responsiveFontSize(15),
-    backgroundColor: "#E5E5E5",
-    flexDirection: "row",
+    backgroundColor: 'white',
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+    borderRadius: responsiveFontSize(2),
+    padding: responsiveFontSize(1),
   },
-  arrowContainer: { justifyContent: "flex-end" },
+  arrowContainer: { justifyContent: 'flex-end' },
   textContainer: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   arrow: {
     padding: responsiveFontSize(2),
@@ -117,21 +120,21 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: responsiveFontSize(5),
     paddingTop: 50,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   textInputStyle: {
-    width: "100%",
+    width: '100%',
     height: responsiveFontSize(8),
     borderWidth: 1,
     borderRadius: 4,
     borderColor: Colors.lightGrey,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: responsiveFontSize(3),
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   fieldTtitleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: responsiveFontSize(5),
   },
   buttonContainer: {
@@ -140,9 +143,9 @@ const styles = StyleSheet.create({
     marginHorizontal: responsiveFontSize(2),
   },
   fieldContainer: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
-    overflow: "hidden",
+    overflow: 'hidden',
     padding: responsiveFontSize(2),
     marginBottom: responsiveFontSize(2),
     marginHorizontal: responsiveFontSize(2),

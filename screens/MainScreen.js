@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-} from "react-native";
+} from 'react-native';
 import {
   responsiveFontSize,
   responsiveScreenHeight,
-} from "react-native-responsive-dimensions";
-import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+} from 'react-native-responsive-dimensions';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
-import GiftListMinimized from "../components/GiftListMinimized";
+import GiftListMinimized from '../components/GiftListMinimized';
 
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const MainScreen = () => {
   const navigation = useNavigation();
@@ -24,6 +24,8 @@ const MainScreen = () => {
   const availableGiftList = useSelector((state) => {
     return state.giftListReducer.giftList;
   });
+
+  //console.log(availableGiftList);
 
   const renderGiftList = (itemData) => {
     return (
@@ -39,8 +41,8 @@ const MainScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <View style={{}}>
-          <Text style={styles.headerText}>My giftlist!</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={styles.headerText}>My GiftList!</Text>
         </View>
       </View>
 
@@ -64,12 +66,12 @@ const MainScreen = () => {
       <View style={styles.addButton}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Create Screen");
+            navigation.navigate('Create Screen');
           }}
         >
           <FontAwesome5
-            name="plus-circle"
-            color={"black"}
+            name='plus-circle'
+            color={'black'}
             size={responsiveFontSize(7)}
           />
         </TouchableOpacity>
@@ -81,19 +83,22 @@ const MainScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E5E5E5",
+    backgroundColor: '#E5E5E5',
   },
 
   headerContainer: {
     height: responsiveFontSize(15),
-    backgroundColor: "#E5E5E5",
-    alignItems: "flex-end",
-    flexDirection: "row",
+    backgroundColor: '#923ac5',
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+    borderRadius: responsiveFontSize(2),
+    padding: responsiveFontSize(1),
   },
   headerText: {
     fontSize: responsiveFontSize(5),
-    fontWeight: "bold",
+    fontWeight: 'bold',
     paddingHorizontal: responsiveFontSize(2),
+    color: 'white',
   },
   flatListContainer: {
     flex: 1,
@@ -108,8 +113,8 @@ const styles = StyleSheet.create({
   addButton: {
     //backgroundColor: "red",
     elevation: 5,
-    alignItems: "flex-end",
-    position: "relative",
+    alignItems: 'flex-end',
+    position: 'relative',
     paddingHorizontal: responsiveFontSize(20),
 
     bottom: 0,
@@ -118,7 +123,7 @@ const styles = StyleSheet.create({
   renderedGiftListStyle: { marginBottom: responsiveFontSize(2) },
   noListContainer: {
     paddingTop: responsiveFontSize(30),
-    alignItems: "center",
+    alignItems: 'center',
   },
   noListText: { fontSize: responsiveFontSize(2) },
 });
