@@ -17,19 +17,17 @@ import GiftListMinimized from '../components/GiftListMinimized';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const MainScreen = () => {
+const PastGiftListScreen = () => {
   const navigation = useNavigation();
-
   let today = new Date();
 
   //returns all gift lists
   const availableGiftList = useSelector((state) => {
     console.log(state);
     return state.giftListReducer.giftList.filter(
-      (current) => new Date(current.date) > today
+      (current) => new Date(current.date) < today
     );
   });
-
   //console.log(availableGiftList);
 
   const renderGiftList = (itemData) => {
@@ -84,6 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E5E5E5',
   },
+
   flatListContainer: {
     flex: 1,
     // alignItems: "center",
@@ -112,4 +111,4 @@ const styles = StyleSheet.create({
   noListText: { fontSize: responsiveFontSize(2) },
 });
 
-export default MainScreen;
+export default PastGiftListScreen;

@@ -33,6 +33,15 @@ import {
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+const recipientModal = () => {
+  return (
+    <Modal>
+      <View>
+        <Text>Hello</Text>
+      </View>
+    </Modal>
+  );
+};
 const Recipients = (props) => {
   //console.log(props);
   const [name, setName] = useState('');
@@ -56,35 +65,34 @@ const Recipients = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topContainer}>
+      <TouchableOpacity style={styles.topContainer}>
         <View style={{}}>
           <Text style={styles.nameText}>{props.name}</Text>
         </View>
         <View style={{ alignItems: 'center' }}>
           <Text style={styles.descriptionText}>{props.description}</Text>
         </View>
-      </View>
-      <TouchableOpacity
-        style={{ flex: 1.5 }}
-        onPress={() => {
-          console.log('status');
-        }}
-      >
-        <View style={styles.bottomContainer}>
-          <ProgressSteps topOffset={0} labelFontSize={responsiveFontSize(1.5)}>
-            <ProgressStep label='idea'></ProgressStep>
-            <ProgressStep label='Purchased'></ProgressStep>
-            <ProgressStep label='Wrapped'>
-              <View style={{ alignItems: 'center' }}>
-                <Text>This is the content within step 2!</Text>
-              </View>
-            </ProgressStep>
-            <ProgressStep label='Gifted'>
-              <View style={{ alignItems: 'center' }}>
-                <Text>This is the content within step 3!</Text>
-              </View>
-            </ProgressStep>
-          </ProgressSteps>
+
+        <View style={{ flex: 1.5 }}>
+          <View style={styles.bottomContainer}>
+            <ProgressSteps
+              topOffset={0}
+              labelFontSize={responsiveFontSize(1.5)}
+            >
+              <ProgressStep label='idea'></ProgressStep>
+              <ProgressStep label='Purchased'></ProgressStep>
+              <ProgressStep label='Wrapped'>
+                <View style={{ alignItems: 'center' }}>
+                  <Text>This is the content within step 2!</Text>
+                </View>
+              </ProgressStep>
+              <ProgressStep label='Gifted'>
+                <View style={{ alignItems: 'center' }}>
+                  <Text>This is the content within step 3!</Text>
+                </View>
+              </ProgressStep>
+            </ProgressSteps>
+          </View>
         </View>
       </TouchableOpacity>
     </View>

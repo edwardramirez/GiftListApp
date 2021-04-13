@@ -6,11 +6,13 @@ import {
   EDIT_RECIPIENT,
 } from '../actions/giftLists';
 
+import cloneDeep from 'lodash/cloneDeep';
+
 const initialState = {
   giftList: [
     {
       budget: 50,
-      date: 'Sat Apr 20 2021 11:30:58 GMT-0700 (PDT)',
+      date: 'Sat Feb 20 2021 11:30:58 GMT-0700 (PDT)',
       id: 0.17817645172513152,
       recipients: [
         {
@@ -105,7 +107,7 @@ const giftListReuducer = (state = initialState, action) => {
       };
 
       //get giftlists
-      const giftListEdit = [...state.giftList];
+      const giftListEdit = cloneDeep([...state.giftList]);
 
       // find giftlist index that we are going to edit
       const targetGiftListIndexAddRecipient = state.giftList.findIndex(
@@ -113,25 +115,13 @@ const giftListReuducer = (state = initialState, action) => {
           return list.id === addGiftListId;
         }
       );
-
       const newRecipientList =
         giftListEdit[targetGiftListIndexAddRecipient].recipients;
 
       newRecipientList.push(newRecipient);
-
-      giftListEdit[targetGiftListIndexAddRecipient].title = 'POOP';
-
-      const newList = giftListEdit[targetGiftListIndexAddRecipient];
-
-      //replace item in array
-      if (targetGiftListIndex >= 0) {
-        giftListEdit.splice(targetGiftListIndex, 1, newList);
-      }
-
-      // console.log(giftListEdit[targetGiftListIndexAddRecipient]);
       return {
         ...state,
-        giftList: giftListEdit.splice(targetGiftListIndex, 1, newList),
+        giftList: giftListEdit,
       };
     default:
       return { ...state };

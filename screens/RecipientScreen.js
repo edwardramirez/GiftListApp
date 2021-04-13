@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
@@ -18,14 +18,16 @@ import Recipients from '../components/RecipientListMinimized';
 const RecepientScreen = (props) => {
   //selected giftlist ID
   const giftListId = props.route.params.giftListID;
-  const giftListRecipients = props.route.params.focusedList;
+  //const giftListRecipients = props.route.params.focusedList;
 
-  useEffect(() => {
-    return () => {
-      console.log('new list is now avaible');
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.route.params?.giftListTitle]);
+  //returns all current list
+  const list = useSelector((state) => {
+    return state.giftListReducer.giftList.find(
+      (current) => current.id === giftListId
+    );
+  });
+
+  //console.log(list);
 
   const renderRecipientList = (itemData) => {
     return (
@@ -57,15 +59,13 @@ const RecepientScreen = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.headTextContainer}>
-          <Text style={styles.headerText}>
-            {props.route.params.giftListTitle}
-          </Text>
+          <Text style={styles.headerText}>{list.title}</Text>
         </View>
       </View>
 
       <View style={styles.recipientContianer}>
         <FlatList
-          data={giftListRecipients}
+          data={list.recipients}
           renderItem={renderRecipientList}
           keyExtractor={(item) => item.id?.toString()}
           showsVerticalScrollIndicator={false}

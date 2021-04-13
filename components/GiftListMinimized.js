@@ -40,10 +40,16 @@ const giftListMinimized = (props) => {
   let today = new Date();
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 
-  const diffDays = Math.round(
-    Math.abs((today - new Date(props.focusedList.date)) / oneDay)
-  );
-
+  let diffDays;
+  if (new Date(props.focusedList.date) < today) {
+    diffDays = diffDays = Math.round(
+      Math.abs((today - new Date(props.focusedList.date)) / oneDay)
+    );
+  } else {
+    diffDays = Math.round(
+      Math.abs((today - new Date(props.focusedList.date)) / oneDay)
+    );
+  }
   var randomColor = require('randomcolor'); // import the script
   var color = randomColor(); // a hex code for an attractive color
 
@@ -54,8 +60,6 @@ const giftListMinimized = (props) => {
         onPress={() => {
           navigation.navigate('Recipient Screen', {
             giftListID: props.focusedList.id,
-            giftListTitle: props.focusedList.title,
-            focusedList: props.focusedList.recipients,
           });
         }}
       >
