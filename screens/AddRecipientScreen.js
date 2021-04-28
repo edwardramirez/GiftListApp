@@ -55,8 +55,7 @@ const CreateScreen = (props) => {
           name,
           budget,
           description,
-          status,
-          false
+          status
         )
       );
       props.navigation.goBack();

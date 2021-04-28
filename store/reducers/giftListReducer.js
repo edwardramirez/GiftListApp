@@ -22,7 +22,6 @@ const initialState = {
           id: 0.9948358305588771,
           name: 'Edward',
           status: 2,
-          completed: false,
         },
       ],
       title: 'This is a test',
@@ -40,7 +39,6 @@ const initialState = {
           id: 1,
           name: 'Bob',
           status: 0,
-          completed: false,
         },
         // {
         //   budget: 100,
@@ -173,7 +171,6 @@ const giftListReuducer = (state = initialState, action) => {
         budget: action.recipientBudget,
         description: action.recipientDescription,
         status: action.recipientStatus,
-        complete: action.recipientComplete,
       };
 
       //get giftlists

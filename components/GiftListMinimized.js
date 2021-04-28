@@ -219,7 +219,7 @@ const giftListMinimized = (props) => {
                   shadowColor='#999'
                   bgColor='#fff'
                 >
-                  <Text>${currentTotal}</Text>
+                  <Text>${currentTotal * 10}</Text>
                   <Text style={{ fontWeight: 'bold' }}>out of</Text>
                   <Text style={{ fontSize: 18 }}>${budget}</Text>
                 </ProgressCircle>

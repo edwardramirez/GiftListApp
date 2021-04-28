@@ -33,15 +33,7 @@ export const editGiftList = (key, title, budget, date, recipients) => {
   };
 };
 
-export const addRecipient = (
-  key,
-  id,
-  name,
-  budget,
-  description,
-  status,
-  completed
-) => {
+export const addRecipient = (key, id, name, budget, description, status) => {
   return {
     type: ADD_RECIPIENT,
     giftListId: key,
@@ -50,7 +42,6 @@ export const addRecipient = (
     recipientBudget: budget,
     recipientDescription: description,
     recipientStatus: status,
-    recipientComplete: completed,
   };
 };
 export const deleteRecipient = (giftListId, recipientId) => {

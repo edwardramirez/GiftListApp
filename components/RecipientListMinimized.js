@@ -16,6 +16,7 @@ import CurrencyInput from 'react-native-currency-input';
 
 import Colors from '../resources/Colors';
 import CreateCancelButton from './CreateCancelButton';
+import NextPreviousButton from './NextPreviousButton';
 
 import { deleteRecipient, editRecipient } from '../store/actions/giftLists';
 
@@ -31,13 +32,11 @@ import {
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const percentageCircleHelper = (status, completed) => {
+const percentageCircleHelper = (status) => {
   //idea,bought,wrapped,gifted
-  const fractionValues = ['0', '25', '50', '75', '100'];
-  const fractionWords = [' ', 'idea', 'purchased', 'wrapped', 'gifted'];
-  const progressColor = status < 4 ? 'green' : 'gold';
-
-  console.log('status ' + status);
+  const fractionValues = ['25', '50', '75', '100'];
+  const fractionWords = ['idea', 'purchased', 'wrapped', 'gifted'];
+  const progressColor = status < 3 ? 'green' : 'gold';
 
   return (
     <ProgressCircle
@@ -64,8 +63,7 @@ const Recipients = (props) => {
     recipientDescription,
     recipientStatus,
     id,
-    giftListId,
-    recipientComplete
+    giftListId
   ) => {
     //validates create form
     const [validate, setValidate] = useState(false);
@@ -73,17 +71,17 @@ const Recipients = (props) => {
     const [budget, setBudget] = useState(recipientBudget);
     const [description, setDescription] = useState(recipientDescription);
     const [status, setStatus] = useState(recipientStatus);
-    const [completed, setCompleted] = useState(recipientComplete);
+    const [completed, setCompleted] = useState(status === 3 ? true : false);
 
-    let newStatus = status;
-    let newComplete = completed;
+    let newStatus = status === 3 ? status : status + 1;
+    let newComplete = status === 3 ? true : false;
 
     useEffect(() => {
       setName(recipientName);
       setBudget(recipientBudget);
       setDescription(recipientDescription);
       setStatus(recipientStatus);
-      setCompleted(recipientComplete);
+      setCompleted(status === 3 ? true : false);
     }, [modal]);
 
     useEffect(() => {
@@ -107,7 +105,7 @@ const Recipients = (props) => {
             name,
             budget,
             description,
-            newStatus,
+            status,
             newComplete
           )
         );
@@ -205,42 +203,68 @@ const Recipients = (props) => {
             }}
           >
             <ProgressSteps activeStep={newStatus} isComplete={newComplete}>
-              <ProgressStep
-                label='Idea'
-                onNext={() => {
-                  newStatus = 1;
-                }}
-              >
-                <View style={{ alignItems: 'center' }}></View>
+              <ProgressStep label='Idea' removeBtnRow={true}>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      newStatus = 1;
+                    }}
+                  >
+                    <Text>idea</Text>
+                  </TouchableOpacity>
+                </View>
               </ProgressStep>
-              <ProgressStep
-                label='Purchased'
-                previousBtnDisabled={true}
-                onNext={() => {
-                  newStatus = 2;
-                }}
-              ></ProgressStep>
-              <ProgressStep
-                label='Wrapped'
-                onNext={() => {
-                  newStatus = 3;
-                }}
-                onPrevious={() => {
-                  newStatus = 1;
-                }}
-              ></ProgressStep>
-              <ProgressStep
-                label='Gifted!'
-                onSubmit={() => {
-                  newComplete = true;
-                  setCompleted(true);
-                }}
-                onPrevious={() => {
-                  newStatus = 2;
-                  newComplete = false;
-                  setCompleted(false);
-                }}
-              ></ProgressStep>
+              <ProgressStep label='Purchased' removeBtnRow={true}>
+                <View>
+                  <NextPreviousButton
+                    nextButton={() => {
+                      setStatus(1);
+                    }}
+                    previousButton={() => {
+                      setStatus(0);
+                    }}
+                  />
+                </View>
+              </ProgressStep>
+              <ProgressStep label='Wrapped' removeBtnRow={true}>
+                <View>
+                  <NextPreviousButton
+                    nextButton={() => {
+                      setStatus(2);
+                    }}
+                    previousButton={() => {
+                      setStatus(0);
+                    }}
+                  />
+                </View>
+              </ProgressStep>
+              <ProgressStep label='Gifted!' removeBtnRow={true} errors={true}>
+                <View>
+                  {completed == true ? (
+                    <NextPreviousButton
+                      nextButton={() => {
+                        setStatus(3);
+                        setCompleted(true);
+                      }}
+                      previousButton={() => {
+                        setStatus(2);
+                        setCompleted(false);
+                      }}
+                    />
+                  ) : (
+                    <NextPreviousButton
+                      nextButton={() => {
+                        setStatus(3);
+                        setCompleted(true);
+                      }}
+                      previousButton={() => {
+                        setStatus(1);
+                        setCompleted(false);
+                      }}
+                    />
+                  )}
+                </View>
+              </ProgressStep>
             </ProgressSteps>
           </View>
 
@@ -296,8 +320,7 @@ const Recipients = (props) => {
           props.description,
           props.status,
           props.id,
-          props.giftListId,
-          props.completed
+          props.giftListId
         )}
         <View
           style={{
@@ -335,7 +358,7 @@ const Recipients = (props) => {
           </View>
         </View>
         <View style={{ width: '25%', justifyContent: 'center' }}>
-          {percentageCircleHelper(props.status, props.completed)}
+          {percentageCircleHelper(props.status)}
         </View>
       </TouchableOpacity>
     </View>
