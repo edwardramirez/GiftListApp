@@ -250,7 +250,11 @@ const giftListMinimized = (props) => {
                 style={styles.touchableStyle}
                 onPress={() => {
                   navigation.navigate('Edit Screen', {
-                    focusedList: props.focusedList,
+                    giftListId: props.focusedList.id,
+                    recipientTitle: props.focusedList.title,
+                    recipientDate: String(props.focusedList.date),
+                    recipientBudget: props.focusedList.budget,
+                    recipients: props.focusedList.recipients,
                   });
                   closeSubMenu();
                 }}

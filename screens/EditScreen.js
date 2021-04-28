@@ -22,13 +22,12 @@ import AcceptButton from '../components/AcceptButton';
 import { editGiftList } from '../store/actions/giftLists';
 
 const EditScreen = (props) => {
-  const id = props.route.params.focusedList.id;
+  const id = props.route.params.giftListId;
 
-  const [title, setTitle] = useState(props.route.params.focusedList.title);
-  const [date, setDate] = useState(
-    new Date(props.route.params.focusedList.date.toString())
-  );
-  const [budget, setBudget] = useState(props.route.params.focusedList.budget);
+  const [title, setTitle] = useState(props.route.params.recipientTitle);
+  const [date, setDate] = useState(new Date(props.route.params.recipientDate));
+  const [budget, setBudget] = useState(props.route.params.recipientBudget);
+
   //validates create form
   const [validate, setValidate] = useState(null);
   useEffect(() => {
@@ -45,13 +44,7 @@ const EditScreen = (props) => {
   const submitEditGiftList = () => {
     if (validate) {
       dispatch(
-        editGiftList(
-          id,
-          title,
-          budget,
-          date,
-          props.route.params.focusedList.recipients
-        )
+        editGiftList(id, title, budget, date, props.route.params.recipients)
       );
       props.navigation.goBack();
     } else {
