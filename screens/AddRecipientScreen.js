@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
@@ -24,51 +25,68 @@ import giftRecipient from '../models/RecipientModel';
 const CreateScreen = (props) => {
   let giftListId = props.route.params.id;
   const [name, setName] = useState('');
-  const [budget, setBudget] = useState('');
+  const [budget, setBudget] = useState(0);
   const [description, setDescription] = useState('');
+  const [status, setStatus] = useState(0);
+  //validates create form
+  const [validate, setValidate] = useState(false);
+
+  useEffect(() => {
+    if (name.length > 0) {
+      setValidate(true);
+    } else {
+      setValidate(false);
+    }
+  }, [name]);
 
   //used to pass data to store
   const dispatch = useDispatch();
 
-  const newRecipient = new giftRecipient();
-  newRecipient.id = Math.random();
-  newRecipient.name = name;
-  newRecipient.budget = budget;
-  newRecipient.description = description;
-  newRecipient.status = '';
-
   //submits recipient
   const submitAddRecipient = () => {
-    dispatch(
-      addRecipient(giftListId, Math.random(), name, budget, description, '1')
-    );
-    props.navigation.goBack();
+    if (validate) {
+      if (!isNaN(budget)) {
+        setBudget(0);
+      }
+      dispatch(
+        addRecipient(
+          giftListId,
+          Math.random(),
+          name,
+          budget,
+          description,
+          status,
+          false
+        )
+      );
+      props.navigation.goBack();
+    } else {
+      Alert.alert('Alert', 'The person needs a name!', [{ text: 'OK' }]);
+    }
   };
 
-  //validates create form
-  const [validate, setValidate] = useState(null);
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.arrowContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.goBack();
-            }}
-          >
-            <FontAwesome5
-              style={styles.arrow}
-              name='arrow-left'
-              color={'black'}
-              size={responsiveFontSize(3)}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.headerText}>Add a person!</Text>
-        </View>
-      </View>
       <ScrollView style={{}}>
+        <View style={styles.headerContainer}>
+          <View style={styles.arrowContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.goBack();
+              }}
+            >
+              <FontAwesome5
+                style={styles.arrow}
+                name='arrow-left'
+                color={'black'}
+                size={responsiveFontSize(3)}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.headerText}>Add a person!</Text>
+          </View>
+        </View>
         <View
           style={[styles.fieldContainer, { marginTop: responsiveFontSize(2) }]}
         >
@@ -87,7 +105,7 @@ const CreateScreen = (props) => {
             style={styles.textInputStyle}
             value={budget}
             onChangeValue={setBudget}
-            placeholder='How much do you plan to spend?'
+            placeholder='$0.00'
             unit='$'
             delimiter=','
             separator='.'

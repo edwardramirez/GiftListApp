@@ -21,16 +21,16 @@ const MainScreen = () => {
   const navigation = useNavigation();
 
   let today = new Date();
+  today.setHours(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
 
   //returns all gift lists
   const availableGiftList = useSelector((state) => {
-    console.log(state);
     return state.giftListReducer.giftList.filter(
-      (current) => new Date(current.date) > today
+      (current) => new Date(current.date) >= today
     );
   });
-
-  //console.log(availableGiftList);
 
   const renderGiftList = (itemData) => {
     return (
@@ -71,7 +71,8 @@ const MainScreen = () => {
           <FontAwesome5
             name='plus-circle'
             color={'black'}
-            size={responsiveFontSize(7)}
+            size={responsiveFontSize(8)}
+            style={{ overflow: 'hidden' }}
           />
         </TouchableOpacity>
       </View>
@@ -91,20 +92,16 @@ const styles = StyleSheet.create({
   },
 
   listContainer: {
-    paddingVertical: responsiveFontSize(2),
+    paddingVertical: responsiveFontSize(0.5),
   },
 
   addButton: {
-    //backgroundColor: "red",
-    elevation: 5,
-    alignItems: 'flex-end',
-    position: 'relative',
-    paddingHorizontal: responsiveFontSize(20),
-
+    alignItems: 'center',
+    position: 'absolute',
     bottom: 0,
-    right: 0,
+    width: '100%',
   },
-  renderedGiftListStyle: { marginBottom: responsiveFontSize(2) },
+  renderedGiftListStyle: { marginBottom: responsiveFontSize(0.5) },
   noListContainer: {
     paddingTop: responsiveFontSize(30),
     alignItems: 'center',

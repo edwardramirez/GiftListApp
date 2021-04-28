@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-let a = "";
+let a = '';
 const createCancelButton = (props) => {
   a = props.buttonColor;
   return (
@@ -16,7 +16,7 @@ const createCancelButton = (props) => {
         style={styles(props.buttonColor).buttonContainer}
         onPress={props.onPress}
       >
-        <Text style={styles().textStyle}>{props.buttonName}</Text>
+        <Text style={styles().textStyle}>{props.label}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -29,11 +29,11 @@ const styles = (props) =>
       height: responsiveFontSize(8),
       borderRadius: 10,
       elevation: 5,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: a,
     },
-    textStyle: { color: "white", fontWeight: "bold" },
+    textStyle: { color: 'white', fontWeight: 'bold' },
   });
 
 export default createCancelButton;

@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import Modal from 'react-native-modal';
 
 import { useNavigation } from '@react-navigation/native';
@@ -19,12 +26,24 @@ import ProgressCircle from 'react-native-progress-circle';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 const giftListMinimized = (props) => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-
-  const deleteList = (id) => dispatch(deleteGiftList(id));
 
   //shows edit and delete on card
   const [showSubMenu, setShowSubMenu] = useState(false);
@@ -34,6 +53,10 @@ const giftListMinimized = (props) => {
 
   const closeSubMenu = () => {
     setShowSubMenu(false);
+  };
+
+  const deleteList = () => {
+    dispatch(deleteGiftList(props.focusedList.id));
   };
 
   //calculates difference remainder days
@@ -50,8 +73,48 @@ const giftListMinimized = (props) => {
       Math.abs((today - new Date(props.focusedList.date)) / oneDay)
     );
   }
+
+  let pass = new Date(props.focusedList.date) > today ? true : false;
+
+  let month = new Date(props.focusedList.date).getMonth();
+  let day = new Date(props.focusedList.date).getDay();
+  let year = new Date(props.focusedList.date).getFullYear();
+
   var randomColor = require('randomcolor'); // import the script
   var color = randomColor(); // a hex code for an attractive color
+
+  let total = props.focusedList.recipients?.reduce(
+    (acc, el) => acc + el.budget,
+    0
+  );
+
+  let budget = props.focusedList.budget;
+
+  let currentTotal =
+    props.focusedList.budget > 0 ? (currentTotal = 100 * (total / budget)) : 0;
+
+  let spentCircleColor = currentTotal > 100 ? 'red' : 'green';
+
+  //can't divide by zero
+  let amountOfRecipients = props.focusedList.recipients.length;
+
+  let completed = props.focusedList.recipients?.reduce(
+    (acc, el) => acc + (Number(el.status) + 1) / 4,
+    0
+  );
+  let currentCompleted =
+    amountOfRecipients >= 0 ? 100 * (completed / amountOfRecipients) : 0;
+
+  if (Math.round(currentCompleted) !== currentCompleted) {
+    currentCompleted = currentCompleted.toFixed(2);
+  }
+
+  if (Math.round(completed) !== completed) {
+    completed = completed.toFixed(2);
+  }
+
+  const progressColor =
+    currentCompleted / amountOfRecipients !== 1 ? '#3399FF' : 'gold';
 
   return (
     <View style={styles.container}>
@@ -87,47 +150,78 @@ const giftListMinimized = (props) => {
               alignItems: 'center',
             }}
           >
-            <View style={{ padding: responsiveFontSize(1) }}>
+            <View style={{ paddingBottom: responsiveFontSize(1) }}>
               <Text style={styles.titleText}>{props.focusedList.title}</Text>
             </View>
-            <View style={{ padding: responsiveFontSize(1) }}>
-              <Text style={styles.infoText}>
-                Due in <Text style={{ color: 'red' }}>{diffDays}</Text> days!
-              </Text>
+            <View style={{ alignItems: 'flex-start' }}>
+              {pass ? (
+                <Text style={styles.infoText}>
+                  Due in <Text style={{ color: 'red' }}>{diffDays}</Text> days!
+                </Text>
+              ) : (
+                <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                  {months[month]}, {day} {year}
+                </Text>
+              )}
+            </View>
+            <View
+              style={{
+                paddingBottom: responsiveFontSize(1),
+              }}
+            >
+              {/* <Text style={styles.infoText}>
+                Budget: ${props.focusedList.budget}
+              </Text> */}
             </View>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
                 width: '100%',
-                padding: responsiveFontSize(1),
+
                 //backgroundColor: 'red',
               }}
             >
               <View style={{ alignItems: 'center' }}>
-                <Text>Completed</Text>
+                <Text style={{ paddingBottom: responsiveFontSize(0.5) }}>
+                  Completed
+                </Text>
                 <ProgressCircle
-                  percent={30}
+                  percent={Number(currentCompleted)}
                   radius={50}
                   borderWidth={8}
-                  color='#3399FF'
+                  color={progressColor}
                   shadowColor='#999'
                   bgColor='#fff'
                 >
-                  <Text style={{ fontSize: 18 }}>{'30%'}</Text>
+                  {amountOfRecipients > 0 ? (
+                    <View style={{ alignItems: 'center' }}>
+                      <Text>{completed}</Text>
+                      <Text style={{ fontWeight: 'bold' }}>out of</Text>
+                      <Text style={{ fontSize: 18 }}>{amountOfRecipients}</Text>
+                    </View>
+                  ) : (
+                    <View>
+                      <Text style={{ fontWeight: 'bold' }}>add people!</Text>
+                    </View>
+                  )}
                 </ProgressCircle>
               </View>
               <View style={{ alignItems: 'center' }}>
-                <Text>Spent</Text>
+                <Text style={{ paddingBottom: responsiveFontSize(0.5) }}>
+                  Spent
+                </Text>
                 <ProgressCircle
-                  percent={30}
+                  percent={Number(currentTotal)}
                   radius={50}
                   borderWidth={8}
-                  color='green'
+                  color={spentCircleColor}
                   shadowColor='#999'
                   bgColor='#fff'
                 >
-                  <Text style={{ fontSize: 18 }}>{'30%'}</Text>
+                  <Text>${currentTotal}</Text>
+                  <Text style={{ fontWeight: 'bold' }}>out of</Text>
+                  <Text style={{ fontSize: 18 }}>${budget}</Text>
                 </ProgressCircle>
               </View>
             </View>
@@ -168,8 +262,22 @@ const giftListMinimized = (props) => {
               <TouchableOpacity
                 style={styles.touchableStyle}
                 onPress={() => {
-                  deleteList(props.focusedList.id);
-                  setShowSubMenu(false);
+                  Alert.alert(
+                    'Delete',
+                    'Are you sure that you want to delete this list?',
+                    [
+                      {
+                        text: 'Cancel',
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'OK',
+                        onPress: () => {
+                          deleteList();
+                        },
+                      },
+                    ]
+                  );
                 }}
               >
                 <View style={styles.menuOptions}>
@@ -186,13 +294,12 @@ const giftListMinimized = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
     elevation: 10,
     overflow: 'hidden',
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: 'white',
-    padding: responsiveFontSize(2),
+    padding: responsiveFontSize(0.5),
   },
   titleText: {
     fontWeight: 'bold',
@@ -200,9 +307,8 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   infoText: {
-    fontWeight: '600',
+    fontWeight: '800',
     fontSize: responsiveFontSize(2),
-    paddingLeft: responsiveFontSize(1),
     color: 'black',
   },
   leftContainer: {

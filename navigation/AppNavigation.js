@@ -37,10 +37,12 @@ const GiftStack = () => (
 );
 
 const TabStack = () => (
-  <SafeAreaView style={styles.AndroidSafeArea}>
-    <Header label={'MY GIFTLIST!'} height={responsiveHeight(10)} />
+  <View style={{ flex: 1 }}>
+    <Header label={'MY GIFTLIST!'} height={responsiveHeight(15)} />
     <Tab.Navigator
       tabBarOptions={{
+        labelStyle: { fontWeight: 'bold' },
+        activeTintColor: 'white',
         style: {
           backgroundColor: Color.purple,
           overflow: 'hidden',
@@ -50,7 +52,7 @@ const TabStack = () => (
       <Tab.Screen name='CURRENT' component={MainScreen} />
       <Tab.Screen name='PAST' component={PastGiftListScreen} />
     </Tab.Navigator>
-  </SafeAreaView>
+  </View>
 );
 const Main = () => {
   return <GiftStack />;

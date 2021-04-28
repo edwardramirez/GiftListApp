@@ -3,9 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
@@ -30,18 +30,29 @@ const CreateScreen = (props) => {
 
   //used to pass data to store
   const dispatch = useDispatch();
+  //validates create form
+  const [validate, setValidate] = useState(false);
+  useEffect(() => {
+    if (title.length > 0) {
+      setValidate(true);
+    } else {
+      setValidate(false);
+    }
+  }, [title]);
 
   const submitGiftList = () => {
-    dispatch(addGiftList(title, budget, String(date), []));
-    props.navigation.goBack();
+    if (validate) {
+      dispatch(addGiftList(title, budget, String(date), []));
+      props.navigation.goBack();
+    } else {
+      Alert.alert('Alert', 'The giftlist needs a title!', [{ text: 'OK' }]);
+    }
   };
 
-  //validates create form
-  const [validate, setValidate] = useState(null);
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.arrowContainer}>
+      <ScrollView style={{}}>
+        <View style={styles.headerContainer}>
           <TouchableOpacity
             onPress={() => {
               props.navigation.goBack();
@@ -54,12 +65,9 @@ const CreateScreen = (props) => {
               size={responsiveFontSize(3)}
             />
           </TouchableOpacity>
-        </View>
-        <View style={styles.textContainer}>
+
           <Text style={styles.headerText}>Create giftlist</Text>
         </View>
-      </View>
-      <ScrollView style={{}}>
         <View
           style={[styles.fieldContainer, { marginTop: responsiveFontSize(2) }]}
         >
@@ -99,27 +107,23 @@ const CreateScreen = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#E5E5E5',
   },
   headerContainer: {
     height: responsiveFontSize(15),
-    backgroundColor: 'white',
+    backgroundColor: '#E5E5E5',
     alignItems: 'flex-end',
     flexDirection: 'row',
     borderRadius: responsiveFontSize(2),
     padding: responsiveFontSize(1),
   },
-  arrowContainer: { justifyContent: 'flex-end' },
-  textContainer: {
-    justifyContent: 'flex-end',
-  },
+
   arrow: {
     padding: responsiveFontSize(2),
   },
   headerText: {
     fontSize: responsiveFontSize(5),
-    paddingTop: 50,
+
     fontWeight: 'bold',
   },
 

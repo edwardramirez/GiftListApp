@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,19 +6,20 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-} from "react-native";
-import { responsiveFontSize } from "react-native-responsive-dimensions";
-import { useDispatch } from "react-redux";
+  Alert,
+} from 'react-native';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { useDispatch } from 'react-redux';
 
-import CurrencyInput from "react-native-currency-input";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import CurrencyInput from 'react-native-currency-input';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import Colors from "../resources/Colors";
+import Colors from '../resources/Colors';
 
-import DatePicker from "../components/DatePicker";
-import AcceptButton from "../components/AcceptButton";
+import DatePicker from '../components/DatePicker';
+import AcceptButton from '../components/AcceptButton';
 
-import { editGiftList } from "../store/actions/giftLists";
+import { editGiftList } from '../store/actions/giftLists';
 
 const EditScreen = (props) => {
   const id = props.route.params.focusedList.id;
@@ -28,47 +29,58 @@ const EditScreen = (props) => {
     new Date(props.route.params.focusedList.date.toString())
   );
   const [budget, setBudget] = useState(props.route.params.focusedList.budget);
+  //validates create form
+  const [validate, setValidate] = useState(null);
+  useEffect(() => {
+    if (title.length > 0) {
+      setValidate(true);
+    } else {
+      setValidate(false);
+    }
+  }, [title]);
 
   //used to pass data to store
   const dispatch = useDispatch();
 
   const submitEditGiftList = () => {
-    dispatch(
-      editGiftList(
-        id,
-        title,
-        budget,
-        date,
-        props.route.params.focusedList.recipients
-      )
-    );
-    props.navigation.goBack();
+    if (validate) {
+      dispatch(
+        editGiftList(
+          id,
+          title,
+          budget,
+          date,
+          props.route.params.focusedList.recipients
+        )
+      );
+      props.navigation.goBack();
+    } else {
+      Alert.alert('Alert', 'The giftlist needs a title!', [{ text: 'OK' }]);
+    }
   };
 
-  //validates create form
-  const [validate, setValidate] = useState(null);
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.arrowContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.goBack();
-            }}
-          >
-            <FontAwesome5
-              style={styles.arrow}
-              name="arrow-left"
-              color={"black"}
-              size={responsiveFontSize(3)}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.headerText}>Edit giftlist</Text>
-        </View>
-      </View>
       <ScrollView>
+        <View style={styles.headerContainer}>
+          <View style={styles.arrowContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.goBack();
+              }}
+            >
+              <FontAwesome5
+                style={styles.arrow}
+                name='arrow-left'
+                color={'black'}
+                size={responsiveFontSize(3)}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.headerText}>Edit giftlist</Text>
+          </View>
+        </View>
         <View
           style={[styles.fieldContainer, { marginTop: responsiveFontSize(2) }]}
         >
@@ -76,8 +88,8 @@ const EditScreen = (props) => {
           <TextInput
             style={styles.textInputStyle}
             value={title}
-            placeholderStyle={{ fontWeight: "bold" }}
-            placeholder="List Title"
+            placeholderStyle={{ fontWeight: 'bold' }}
+            placeholder='List Title'
             onChangeText={(title) => setTitle(title)}
           ></TextInput>
         </View>
@@ -87,19 +99,19 @@ const EditScreen = (props) => {
             style={styles.textInputStyle}
             value={budget}
             onChangeValue={setBudget}
-            placeholder="$0.00"
-            unit="$"
-            delimiter=","
-            separator="."
+            placeholder='$0.00'
+            unit='$'
+            delimiter=','
+            separator='.'
             precision={2}
           />
         </View>
         <View style={styles.fieldContainer}>
           <Text style={styles.fieldTtitleText}>DUE DATE</Text>
-          <DatePicker label="Date" date={date} setDate={setDate} />
+          <DatePicker label='Date' date={date} setDate={setDate} />
         </View>
         <View style={styles.buttonContainer}>
-          <AcceptButton buttonName="EDIT" onPress={submitEditGiftList} />
+          <AcceptButton buttonName='EDIT' onPress={submitEditGiftList} />
         </View>
       </ScrollView>
     </View>
@@ -109,16 +121,16 @@ const EditScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E5E5E5",
+    backgroundColor: '#E5E5E5',
   },
   headerContainer: {
     height: responsiveFontSize(15),
-    backgroundColor: "#E5E5E5",
-    flexDirection: "row",
+    backgroundColor: '#E5E5E5',
+    flexDirection: 'row',
   },
-  arrowContainer: { justifyContent: "flex-end" },
+  arrowContainer: { justifyContent: 'flex-end' },
   textContainer: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   arrow: {
     padding: responsiveFontSize(2),
@@ -126,21 +138,21 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: responsiveFontSize(5),
     paddingTop: 50,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   textInputStyle: {
-    width: "100%",
+    width: '100%',
     height: responsiveFontSize(8),
     borderWidth: 1,
     borderRadius: 4,
     borderColor: Colors.lightGrey,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: responsiveFontSize(3),
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   fieldTtitleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: responsiveFontSize(5),
   },
   buttonContainer: {
@@ -149,9 +161,9 @@ const styles = StyleSheet.create({
     marginHorizontal: responsiveFontSize(2),
   },
   fieldContainer: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
-    overflow: "hidden",
+    overflow: 'hidden',
     padding: responsiveFontSize(2),
     marginBottom: responsiveFontSize(2),
     marginHorizontal: responsiveFontSize(2),

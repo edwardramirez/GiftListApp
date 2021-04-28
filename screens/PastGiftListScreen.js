@@ -20,10 +20,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const PastGiftListScreen = () => {
   const navigation = useNavigation();
   let today = new Date();
+  today.setHours(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
 
   //returns all gift lists
   const availableGiftList = useSelector((state) => {
-    console.log(state);
     return state.giftListReducer.giftList.filter(
       (current) => new Date(current.date) < today
     );
@@ -90,18 +92,13 @@ const styles = StyleSheet.create({
   },
 
   listContainer: {
-    paddingVertical: responsiveFontSize(2),
+    paddingVertical: responsiveFontSize(0.5),
   },
-
   addButton: {
-    //backgroundColor: "red",
-    elevation: 5,
-    alignItems: 'flex-end',
-    position: 'relative',
-    paddingHorizontal: responsiveFontSize(20),
-
+    alignItems: 'center',
+    position: 'absolute',
     bottom: 0,
-    right: 0,
+    width: '100%',
   },
   renderedGiftListStyle: { marginBottom: responsiveFontSize(2) },
   noListContainer: {

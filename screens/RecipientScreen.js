@@ -9,11 +9,16 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+} from 'react-native-responsive-dimensions';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import Recipients from '../components/RecipientListMinimized';
+
+import Header from '../components/Header';
 
 const RecepientScreen = (props) => {
   //selected giftlist ID
@@ -27,8 +32,6 @@ const RecepientScreen = (props) => {
     );
   });
 
-  //console.log(list);
-
   const renderRecipientList = (itemData) => {
     return (
       <View style={styles.renderedGiftListStyle}>
@@ -36,6 +39,10 @@ const RecepientScreen = (props) => {
           name={itemData.item.name}
           budget={itemData.item.budget}
           description={itemData.item.description}
+          status={itemData.item.status}
+          id={itemData.item.id}
+          giftListId={giftListId}
+          completed={itemData.item.completed}
         />
       </View>
     );
@@ -43,7 +50,16 @@ const RecepientScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
+      <View style={{ Flex: 1 }}>
+        <Header
+          label={'test'}
+          height={responsiveHeight(15)}
+          onPress={() => {
+            props.navigation.goBack();
+          }}
+        />
+      </View>
+      {/* <View style={styles.headerContainer}>
         <View style={styles.arrowContainer}>
           <TouchableOpacity
             onPress={() => {
@@ -61,7 +77,7 @@ const RecepientScreen = (props) => {
         <View style={styles.headTextContainer}>
           <Text style={styles.headerText}>{list.title}</Text>
         </View>
-      </View>
+      </View> */}
 
       <View style={styles.recipientContianer}>
         <FlatList
@@ -69,6 +85,13 @@ const RecepientScreen = (props) => {
           renderItem={renderRecipientList}
           keyExtractor={(item) => item.id?.toString()}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <View style={styles.noListContainer}>
+              <Text style={styles.noListText}>
+                Tap add button to add People!
+              </Text>
+            </View>
+          }
         />
       </View>
       <View style={styles.addButton}>
@@ -116,15 +139,18 @@ const styles = StyleSheet.create({
     padding: responsiveFontSize(2),
   },
   addButton: {
-    //backgroundColor: "red",
-    elevation: 5,
-    alignItems: 'flex-end',
-    position: 'relative',
-    paddingHorizontal: responsiveFontSize(20),
-
+    alignItems: 'center',
+    position: 'absolute',
     bottom: 0,
-    right: 0,
+    width: '100%',
   },
+  noListContainer: {
+    flex: 1,
+    paddingTop: responsiveFontSize(30),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noListText: { fontSize: responsiveFontSize(2) },
 });
 
 export default RecepientScreen;

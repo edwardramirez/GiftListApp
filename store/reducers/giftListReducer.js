@@ -4,6 +4,7 @@ import {
   DELETE_GIFTLIST,
   ADD_RECIPIENT,
   EDIT_RECIPIENT,
+  DELETE_RECIPIENT,
 } from '../actions/giftLists';
 
 import cloneDeep from 'lodash/cloneDeep';
@@ -20,25 +21,43 @@ const initialState = {
           description: 'A crazy thing',
           id: 0.9948358305588771,
           name: 'Edward',
-          status: '1',
+          status: 2,
+          completed: false,
         },
       ],
       title: 'This is a test',
     },
+
     {
-      budget: 50,
+      budget: 1000,
       date: 'Sat Dec 20 2021 11:30:58 GMT-0700 (PDT)',
-      id: 2,
+      id: 5,
       recipients: [
         {
           budget: 50,
-          description: 'A crazy thing 2',
-          id: 0.1,
-          name: 'Edward',
-          status: '1',
+          description:
+            'Im thinking getting this person something really really long and this is a long text',
+          id: 1,
+          name: 'Bob',
+          status: 0,
+          completed: false,
         },
+        // {
+        //   budget: 100,
+        //   description: 'Nike shoes',
+        //   id: 2,
+        //   name: 'Bill',
+        //   status: 1,
+        // },
+        // {
+        //   budget: 500,
+        //   description: 'A ps5',
+        //   id: 3,
+        //   name: 'Edward',
+        //   status: 3,
+        // },
       ],
-      title: 'This is a test 2 ',
+      title: 'Christmas',
     },
   ],
 };
@@ -94,6 +113,56 @@ const giftListReuducer = (state = initialState, action) => {
         giftList: list,
       };
 
+    case DELETE_RECIPIENT:
+      //get giftlists
+      const cloneList = cloneDeep([...state.giftList]);
+
+      let targetListIndex = state.giftList.findIndex(
+        (item) => item.id == action.giftListId
+      );
+
+      let newRecipientListToDelete = cloneList[
+        targetListIndex
+      ].recipients.filter((item) => item.id !== action.recipientId);
+
+      cloneList[targetListIndex].recipients = newRecipientListToDelete;
+
+      return {
+        ...state,
+        giftList: cloneList,
+      };
+
+    case EDIT_RECIPIENT:
+      let editGiftListID = action.giftListId;
+
+      //get giftlists
+      const giftListEditRecipient = cloneDeep([...state.giftList]);
+
+      let editRecipient = {
+        id: action.recipientId,
+        name: action.recipientName,
+        budget: action.recipientBudget,
+        description: action.recipientDescription,
+        status: action.recipientStatus,
+      };
+
+      const targetGiftListIndexEditRecipient = state.giftList.findIndex(
+        (list) => {
+          return list.id === editGiftListID;
+        }
+      );
+
+      const editRecipientList =
+        giftListEditRecipient[targetGiftListIndexEditRecipient].recipients;
+
+      const recipientIndex = editRecipientList.findIndex((list) => {
+        return list.id === action.recipientId;
+      });
+
+      editRecipientList.splice(recipientIndex, 1, editRecipient);
+
+      return { ...state, giftList: giftListEditRecipient };
+
     case ADD_RECIPIENT:
       //get giftList data
       const addGiftListId = action.giftListId;
@@ -104,6 +173,7 @@ const giftListReuducer = (state = initialState, action) => {
         budget: action.recipientBudget,
         description: action.recipientDescription,
         status: action.recipientStatus,
+        complete: action.recipientComplete,
       };
 
       //get giftlists
