@@ -15,14 +15,14 @@ import { Provider } from 'react-redux';
 import { persiStore, persiReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import FilesystemStorage from 'redux-persist-filesystem-storage';
+//import FilesystemStorage from 'redux-persist-filesystem-storage';
 import persistReducer from 'redux-persist/es/persistReducer';
 import { applyMiddleware } from 'redux';
 
-const persistConfig = {
-  key: 'root',
-  storage: FilesystemStorage,
-};
+// const persistConfig = {
+//   key: 'root',
+//   storage: FilesystemStorage,
+// };
 
 const rootReducer = combineReducers({
   giftListReducer: giftListReducer,
