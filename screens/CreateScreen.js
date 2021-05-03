@@ -19,14 +19,12 @@ import Colors from '../resources/Colors';
 import DatePicker from '../components/DatePicker';
 import AcceptButton from '../components/AcceptButton';
 
-import giftRecipient from '../models/RecipientModel';
-
 import { addGiftList } from '../store/actions/giftLists';
 
 const CreateScreen = (props) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date());
-  const [budget, setBudget] = useState('');
+  const [budget, setBudget] = useState(0);
 
   //used to pass data to store
   const dispatch = useDispatch();

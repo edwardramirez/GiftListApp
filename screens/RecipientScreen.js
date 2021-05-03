@@ -19,6 +19,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Recipients from '../components/RecipientListMinimized';
 
 import Header from '../components/Header';
+import CreateCancelButton from './../components/CreateCancelButton';
 
 const RecepientScreen = (props) => {
   //selected giftlist ID
@@ -61,6 +62,7 @@ const RecepientScreen = (props) => {
 
       <View style={styles.recipientContianer}>
         <FlatList
+          contentContainerStyle={styles.listContainer}
           data={list.recipients}
           renderItem={renderRecipientList}
           keyExtractor={(item) => item.id?.toString()}
@@ -75,17 +77,13 @@ const RecepientScreen = (props) => {
         />
       </View>
       <View style={styles.addButton}>
-        <TouchableOpacity
+        <CreateCancelButton
+          label={'CREATE'}
+          buttonColor={'black'}
           onPress={() => {
             props.navigation.navigate('Add Person Screen', { id: giftListId });
           }}
-        >
-          <FontAwesome5
-            name='plus-circle'
-            color={'black'}
-            size={responsiveFontSize(7)}
-          />
-        </TouchableOpacity>
+        />
       </View>
     </View>
   );
@@ -115,14 +113,13 @@ const styles = StyleSheet.create({
   arrowContainer: { justifyContent: 'flex-end' },
   arrow: { padding: responsiveFontSize(2) },
   recipientContianer: { flex: 1 },
-  listContainer: {
-    padding: responsiveFontSize(2),
-  },
+  listContainer: { paddingBottom: responsiveFontSize(10) },
   addButton: {
-    alignItems: 'center',
+    flex: 1,
     position: 'absolute',
-    bottom: 0,
+    bottom: 18,
     width: '100%',
+    paddingHorizontal: responsiveFontSize(2),
   },
   noListContainer: {
     flex: 1,

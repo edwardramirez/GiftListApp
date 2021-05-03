@@ -84,9 +84,8 @@ const styles = StyleSheet.create({
   },
 
   listContainer: {
-    paddingBottom: responsiveFontSize(8),
+    paddingBottom: responsiveFontSize(10),
   },
-
   addButton: {
     flex: 1,
     position: 'absolute',

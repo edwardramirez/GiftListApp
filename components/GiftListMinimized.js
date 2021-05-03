@@ -54,6 +54,10 @@ const giftListMinimized = (props) => {
 
   //calculates difference remainder days
   let today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 
   let diffDays;
@@ -66,10 +70,9 @@ const giftListMinimized = (props) => {
       Math.abs((today - new Date(props.focusedList.date)) / oneDay)
     );
   }
-
-  let pass = new Date(props.focusedList.date) > today ? true : false;
+  let pass = new Date(props.focusedList.date) >= today ? true : false;
   let month = new Date(props.focusedList.date).getMonth();
-  let day = new Date(props.focusedList.date).getDay();
+  let day = new Date(props.focusedList.date).getDate();
   let year = new Date(props.focusedList.date).getFullYear();
 
   var randomColor = require('randomcolor'); // import the script
