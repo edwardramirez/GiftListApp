@@ -268,7 +268,11 @@ const Recipients = (props) => {
             </ProgressSteps>
           </View>
 
-          <View style={{ flexDirection: 'row' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+            }}
+          >
             <CreateCancelButton
               label={'DELETE'}
               buttonColor={'#e30000'}

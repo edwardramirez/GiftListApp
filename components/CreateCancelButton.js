@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import {
@@ -24,10 +24,10 @@ const createCancelButton = (props) => {
 
 const styles = (props) =>
   StyleSheet.create({
-    container: { flex: 1, padding: responsiveFontSize(1) },
+    container: { flex: 1 },
     buttonContainer: {
-      height: responsiveFontSize(8),
-      borderRadius: 10,
+      height: responsiveHeight(8),
+      borderRadius: 100,
       elevation: 5,
       alignItems: 'center',
       justifyContent: 'center',

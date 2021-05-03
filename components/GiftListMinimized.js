@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import { useDispatch } from 'react-redux';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import Modal from 'react-native-modal';
 
 import { useNavigation } from '@react-navigation/native';
@@ -75,7 +68,6 @@ const giftListMinimized = (props) => {
   }
 
   let pass = new Date(props.focusedList.date) > today ? true : false;
-
   let month = new Date(props.focusedList.date).getMonth();
   let day = new Date(props.focusedList.date).getDay();
   let year = new Date(props.focusedList.date).getFullYear();

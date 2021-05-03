@@ -14,11 +14,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 import GiftListMinimized from '../components/GiftListMinimized';
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import CreateCancelButton from './../components/CreateCancelButton';
 
 const PastGiftListScreen = () => {
   const navigation = useNavigation();
+
   let today = new Date();
   today.setHours(0);
   today.setSeconds(0);
@@ -30,7 +30,6 @@ const PastGiftListScreen = () => {
       (current) => new Date(current.date) < today
     );
   });
-  //console.log(availableGiftList);
 
   const renderGiftList = (itemData) => {
     return (
@@ -63,17 +62,13 @@ const PastGiftListScreen = () => {
       </View>
 
       <View style={styles.addButton}>
-        <TouchableOpacity
+        <CreateCancelButton
+          label={'CREATE'}
+          buttonColor={'black'}
           onPress={() => {
             navigation.navigate('Create Screen');
           }}
-        >
-          <FontAwesome5
-            name='plus-circle'
-            color={'black'}
-            size={responsiveFontSize(7)}
-          />
-        </TouchableOpacity>
+        />
       </View>
     </View>
   );
@@ -84,23 +79,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E5E5E5',
   },
-
   flatListContainer: {
-    flex: 1,
     // alignItems: "center",
-    // padding: responsiveFontSize(2),
   },
 
   listContainer: {
-    paddingVertical: responsiveFontSize(0.5),
+    paddingBottom: responsiveFontSize(8),
   },
+
   addButton: {
-    alignItems: 'center',
+    flex: 1,
     position: 'absolute',
-    bottom: 0,
+    bottom: 18,
     width: '100%',
+    paddingHorizontal: responsiveFontSize(2),
   },
-  renderedGiftListStyle: { marginBottom: responsiveFontSize(2) },
+  renderedGiftListStyle: { marginBottom: responsiveFontSize(0.5) },
   noListContainer: {
     paddingTop: responsiveFontSize(30),
     alignItems: 'center',

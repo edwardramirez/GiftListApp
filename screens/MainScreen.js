@@ -14,8 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 import GiftListMinimized from '../components/GiftListMinimized';
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import CreateCancelButton from './../components/CreateCancelButton';
 
 const MainScreen = () => {
   const navigation = useNavigation();
@@ -63,18 +62,13 @@ const MainScreen = () => {
       </View>
 
       <View style={styles.addButton}>
-        <TouchableOpacity
+        <CreateCancelButton
+          label={'CREATE'}
+          buttonColor={'black'}
           onPress={() => {
             navigation.navigate('Create Screen');
           }}
-        >
-          <FontAwesome5
-            name='plus-circle'
-            color={'black'}
-            size={responsiveFontSize(8)}
-            style={{ overflow: 'hidden' }}
-          />
-        </TouchableOpacity>
+        />
       </View>
     </View>
   );
@@ -86,20 +80,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5E5E5',
   },
   flatListContainer: {
-    flex: 1,
     // alignItems: "center",
-    // padding: responsiveFontSize(2),
   },
 
   listContainer: {
-    paddingVertical: responsiveFontSize(0.5),
+    paddingBottom: responsiveFontSize(8),
   },
 
   addButton: {
-    alignItems: 'center',
+    flex: 1,
     position: 'absolute',
-    bottom: 0,
+    bottom: 18,
     width: '100%',
+    paddingHorizontal: responsiveFontSize(2),
   },
   renderedGiftListStyle: { marginBottom: responsiveFontSize(0.5) },
   noListContainer: {

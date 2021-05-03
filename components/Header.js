@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -37,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.purple,
     alignItems: 'flex-end',
     flexDirection: 'row',
-    height: responsiveHeight(14),
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   headerText: {
     fontSize: responsiveFontSize(5),

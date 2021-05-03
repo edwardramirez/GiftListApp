@@ -53,31 +53,11 @@ const RecepientScreen = (props) => {
       <View style={{ Flex: 1 }}>
         <Header
           label={'test'}
-          height={responsiveHeight(15)}
           onPress={() => {
             props.navigation.goBack();
           }}
         />
       </View>
-      {/* <View style={styles.headerContainer}>
-        <View style={styles.arrowContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              props.navigation.goBack();
-            }}
-          >
-            <FontAwesome5
-              style={styles.arrow}
-              name='arrow-left'
-              color={'white'}
-              size={responsiveFontSize(3)}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.headTextContainer}>
-          <Text style={styles.headerText}>{list.title}</Text>
-        </View>
-      </View> */}
 
       <View style={styles.recipientContianer}>
         <FlatList
